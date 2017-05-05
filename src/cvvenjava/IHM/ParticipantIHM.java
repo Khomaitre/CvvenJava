@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cvvenjava;
+package cvvenjava.IHM;
 
 /**
  *
  * @author morlinyia
  */
-public class Participant {
+public class ParticipantIHM {
     
 }

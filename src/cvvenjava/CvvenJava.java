@@ -5,11 +5,14 @@
  */
 package cvvenjava;
 
-import java.sql.Connection;
+import cvvenjava.IHM.Login;
+import connection.ConnectionSingle;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
+import org.postgresql.util.PSQLException;
 
 /**
  *
@@ -19,58 +22,16 @@ public class CvvenJava {
 
     /**
      * @param args the command line arguments
+     * @throws java.lang.ClassNotFoundException
+     * @throws org.postgresql.util.PSQLException
+     * 
+     *
      */
-    public static void main(String args[]) {
-        try {
-            String url = "jdbc:postgresql://78.221.246.54:5432/groupe1bJavaCvven";
-            String user = "groupe1b";
-            String passwd = "mdp1b"; 
+    public static void main(String args[]) throws ClassNotFoundException, PSQLException, SQLException {
+        
             
-            Class.forName("org.postgresql.Driver");
-            System.out.println("Driver O.K.");
-            
-            Connection conn = DriverManager.getConnection(url, user, passwd);
-            System.out.println("Connexion effective !"); 
-            
-            //Création d'un objet Statement
-      Statement state = conn.createStatement();
-      //L'objet ResultSet contient le résultat de la requête SQL
-      ResultSet result = state.executeQuery("SELECT * FROM participant");
-      //On récupère les MetaData
-      ResultSetMetaData resultMeta = result.getMetaData();
-         
-      System.out.println("\n**********************************");
-      //On affiche le nom des colonnes
-      for(int i = 1; i <= resultMeta.getColumnCount(); i++)
-        System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
-         
-      System.out.println("\n**********************************");
-         
-      while(result.next()){         
-        for(int i = 1; i <= resultMeta.getColumnCount(); i++)
-          System.out.print("\t" + result.getObject(i).toString() + "\t |");
-            
-        System.out.println("\n---------------------------------");
-
-      }
-System.out.println("- Il y a " + resultMeta.getColumnCount() + " colonnes dans cette table");
-for(int i = 1; i <= resultMeta.getColumnCount(); i++)
-        System.out.println("\t *" + resultMeta.getColumnName(i));        
-
-      System.out.println("Voici les noms et prénoms : ");
-      System.out.println("\n---------------------------------");
-
-      while(result.next()){
-        System.out.print("\t" + result.getString("nom") + "\t |");
-        System.out.print("\t" + result.getString("prenom") + "\t |");
-        System.out.println("\n---------------------------------");
-      }
-
-      result.close();
-      state.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }  
+           
+      
             
         
         /* Set the Nimbus look and feel */
