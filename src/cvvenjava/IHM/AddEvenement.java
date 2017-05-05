@@ -5,6 +5,14 @@
  */
 package cvvenjava.IHM;
 
+import connection.ConnectionSingle;
+import cvvenjava.DAO.Evenement;
+import cvvenjava.DAO.EvenementDAO;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author sylvie
@@ -45,7 +53,7 @@ public class AddEvenement extends javax.swing.JFrame {
         jButtonSave = new javax.swing.JButton();
         jButtonReini = new javax.swing.JButton();
         jButtonClose = new javax.swing.JButton();
-        jXDatePicker = new org.jdesktop.swingx.JXDatePicker();
+        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,7 +89,7 @@ public class AddEvenement extends javax.swing.JFrame {
         jTextAreaDescription.setRows(5);
         jScrollPane1.setViewportView(jTextAreaDescription);
 
-        jComboBoxType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Séminaire", "Animation artistique", "Réunion", "Congrès" }));
         jComboBoxType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxTypeActionPerformed(evt);
@@ -138,13 +146,12 @@ public class AddEvenement extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel3)
                                         .addGap(62, 62, 62)))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jXDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
-                                        .addComponent(jTextFieldOrga)
-                                        .addComponent(jComboBoxType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jTextFieldDuree)))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldOrga)
+                                    .addComponent(jComboBoxType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldDuree)
+                                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButtonReini)
@@ -170,7 +177,7 @@ public class AddEvenement extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jXDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -223,8 +230,34 @@ public class AddEvenement extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxTypeActionPerformed
 
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
+        try {
+            String intitule = jTextFieldNom.getText();
+            String theme = jTextFieldTheme.getText();
+            Date dateDebut = jXDatePicker1.getDate();
+            Integer duree = -1;
+            try{
+                  duree = Integer.parseInt(jTextFieldDuree.getText());
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Erreur, Saisir une durée correcte (En chiffre).");
+            }
+          
+            String description = jTextAreaDescription.getText();
+            String organisateur = jTextFieldOrga.getText();
+            String typeEven = jComboBoxType.getSelectedItem().toString();
+            EvenementDAO e = new EvenementDAO(ConnectionSingle.getInstance());
+            Evenement even = new Evenement (intitule, theme, dateDebut, duree, description, organisateur, typeEven);
+            if(e.create(even)){
+//                  this.dispose();
+                System.out.println("Ajouté");
+            }
+            else{
+                System.out.println("Erreur");
+            }
+      
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AddEvenement.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
     }//GEN-LAST:event_jButtonSaveActionPerformed
 
     private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCloseActionPerformed
@@ -238,7 +271,7 @@ public class AddEvenement extends javax.swing.JFrame {
         jTextFieldDuree.setText("");
         jTextFieldOrga.setText("");
         jTextFieldTheme.setText("");
-        jXDatePicker.setDate(null);
+        jXDatePicker1.setDate(null);
         jTextAreaDescription.setText("");
         
     }//GEN-LAST:event_jButtonReiniActionPerformed
@@ -298,6 +331,6 @@ public class AddEvenement extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldNom;
     private javax.swing.JTextField jTextFieldOrga;
     private javax.swing.JTextField jTextFieldTheme;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker;
+    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     // End of variables declaration//GEN-END:variables
 }

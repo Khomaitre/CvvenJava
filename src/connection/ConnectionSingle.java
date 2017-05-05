@@ -14,32 +14,34 @@ import java.sql.SQLException;
  * @author homai
  */
 public class ConnectionSingle {
-    
-      
       
   //URL de connexion
-  private String url = "jdbc:postgresql://78.221.246.54:5432/groupe1bJavaCvven";
+  private static String url = "jdbc:postgresql://78.221.246.54:5432/groupe1bJavaCvven";
   //Nom du user
-  private String user = "groupe1b";
+  private static String user = "groupe1b";
   //Mot de passe de l'utilisateur
-  private String passwd = "mdp1b";
+  private static String passwd = "mdp1b";
   //Objet Connection
   private static Connection connect;
    
-  //Constructeur privé
-  private ConnectionSingle(){
-    try {
-      connect = DriverManager.getConnection(url, user, passwd);
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-  }
-   
-  //Méthode qui va nous retourner notre instance et la créer si elle n'existe pas
-   public static Connection getInstance(){
+  public static Connection getInstance(){
     if(connect == null){
-      new ConnectionSingle();
-    }
-    return connect;   
-  }   
+      try {
+          try {
+              connect = DriverManager.getConnection(url, user, passwd);
+              System.out.println("Connexion Effectué");
+          } catch (Exception ex){
+              
+              System.out.println("Exception : " + ex.getMessage());
+              url = "jdbc:postgresql://172.16.10.65:5432/groupe1bJavaCvven";
+              System.out.println("New Url : " + url);
+          }
+        connect = DriverManager.getConnection(url, user, passwd);
+      } catch (SQLException e) {
+        System.out.println(e.getMessage());
+      }
+    }      
+    return connect;
+  }
 }
+ 

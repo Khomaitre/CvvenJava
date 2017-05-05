@@ -60,6 +60,30 @@ public class Evenement implements Serializable {
     public Evenement() {
     }
 
+    public Evenement(Integer numEven, String intitule, String theme, Date dateDebut, Integer duree, Integer nbPartMax, String description, String organisateur, String typeEven) {
+        this.numEven = numEven;
+        this.intitule = intitule;
+        this.theme = theme;
+        this.dateDebut = dateDebut;
+        this.duree = duree;
+        this.nbPartMax = nbPartMax;
+        this.description = description;
+        this.organisateur = organisateur;
+        this.typeEven = typeEven;
+    }
+
+     public Evenement(String intitule, String theme, Date dateDebut, Integer duree, String description, String organisateur, String typeEven) {
+        this.intitule = intitule;
+        this.theme = theme;
+        this.dateDebut = dateDebut;
+        this.duree = duree;
+        this.description = description;
+        this.organisateur = organisateur;
+        this.typeEven = typeEven;
+    }
+     
+
+
     public Evenement(Integer numEven) {
         this.numEven = numEven;
     }
@@ -158,7 +182,9 @@ public class Evenement implements Serializable {
 
     @Override
     public String toString() {
-        return "cvvenjava.DAO.Evenement[ numEven=" + numEven + " ]";
+        return "Evenement{" + "numEven=" + numEven + ", intitule=" + intitule + ", theme=" + theme + ", dateDebut=" + dateDebut + ", duree=" + duree + ", nbPartMax=" + nbPartMax + ", description=" + description + ", organisateur=" + organisateur + ", typeEven=" + typeEven + '}';
     }
+
+ 
     
 }

@@ -28,17 +28,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "participant")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Participant_1.findAll", query = "SELECT p FROM Participant_1 p")
-    , @NamedQuery(name = "Participant_1.findByNumPers", query = "SELECT p FROM Participant_1 p WHERE p.numPers = :numPers")
-    , @NamedQuery(name = "Participant_1.findByNom", query = "SELECT p FROM Participant_1 p WHERE p.nom = :nom")
-    , @NamedQuery(name = "Participant_1.findByPrenom", query = "SELECT p FROM Participant_1 p WHERE p.prenom = :prenom")
-    , @NamedQuery(name = "Participant_1.findByMail", query = "SELECT p FROM Participant_1 p WHERE p.mail = :mail")
-    , @NamedQuery(name = "Participant_1.findByDateNaiss", query = "SELECT p FROM Participant_1 p WHERE p.dateNaiss = :dateNaiss")
-    , @NamedQuery(name = "Participant_1.findByOrganisation", query = "SELECT p FROM Participant_1 p WHERE p.organisation = :organisation")
-    , @NamedQuery(name = "Participant_1.findByObservation", query = "SELECT p FROM Participant_1 p WHERE p.observation = :observation")
-    , @NamedQuery(name = "Participant_1.findByRole", query = "SELECT p FROM Participant_1 p WHERE p.role = :role")
-    , @NamedQuery(name = "Participant_1.findByLogin", query = "SELECT p FROM Participant_1 p WHERE p.login = :login")
-    , @NamedQuery(name = "Participant_1.findByMdp", query = "SELECT p FROM Participant_1 p WHERE p.mdp = :mdp")})
+    @NamedQuery(name = "Participant.findAll", query = "SELECT p FROM Participant p")
+    , @NamedQuery(name = "Participant.findByNumPers", query = "SELECT p FROM Participant p WHERE p.numPers = :numPers")
+    , @NamedQuery(name = "Participant.findByNom", query = "SELECT p FROM Participant p WHERE p.nom = :nom")
+    , @NamedQuery(name = "Participant.findByPrenom", query = "SELECT p FROM Participant p WHERE p.prenom = :prenom")
+    , @NamedQuery(name = "Participant.findByMail", query = "SELECT p FROM Participant p WHERE p.mail = :mail")
+    , @NamedQuery(name = "Participant.findByDateNaiss", query = "SELECT p FROM Participant p WHERE p.dateNaiss = :dateNaiss")
+    , @NamedQuery(name = "Participant.findByOrganisation", query = "SELECT p FROM Participant p WHERE p.organisation = :organisation")
+    , @NamedQuery(name = "Participant.findByObservation", query = "SELECT p FROM Participant p WHERE p.observation = :observation")
+    , @NamedQuery(name = "Participant.findByRole", query = "SELECT p FROM Participant p WHERE p.role = :role")
+    , @NamedQuery(name = "Participant.findByLogin", query = "SELECT p FROM Participant p WHERE p.login = :login")
+    , @NamedQuery(name = "Participant.findByMdp", query = "SELECT p FROM Participant p WHERE p.mdp = :mdp")})
 public class Participant implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -62,8 +62,36 @@ public class Participant implements Serializable {
     public Participant() {
     }
 
-    public Participant(Integer numPers) {
+    public Participant(Integer numPers, String nom, String prenom, String mail, Date dateNaiss, String organisation, String observation, Boolean role) {
         this.numPers = numPers;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.mail = mail;
+        this.dateNaiss = dateNaiss;
+        this.organisation = organisation;
+        this.observation = observation;
+        this.role = role;
+    }
+    public Participant(String nom, String prenom, String mail, Date dateNaiss, String organisation, String observation, Boolean role, String login, String mdp) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.mail = mail;
+        this.dateNaiss = dateNaiss;
+        this.organisation = organisation;
+        this.observation = observation;
+        this.role = role;
+        this.login = login;
+        this.mdp = mdp;
+    }
+
+    
+    public Participant(Integer numPers, String nom) {
+        this.numPers = numPers;
+        this.nom = nom;
+    }
+    public Participant(String login, String mdp){
+        this.login = login;
+        this.mdp = mdp;
     }
 
     public Integer getNumPers() {
@@ -168,7 +196,7 @@ public class Participant implements Serializable {
 
     @Override
     public String toString() {
-        return "cvvenjava.DAO.Participant_1[ numPers=" + numPers + " ]";
+        return "cvvenjava.DAO.Participant[ numPers=" + numPers + " ]";
     }
     
 }

@@ -5,6 +5,15 @@
  */
 package cvvenjava.IHM;
 
+import connection.ConnectionSingle;
+import cvvenjava.DAO.DAO;
+import cvvenjava.DAO.Participant;
+import cvvenjava.DAO.ParticipantDAO;
+import java.sql.Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author morlinyia
@@ -36,6 +45,7 @@ public class Login extends javax.swing.JFrame {
         jBtnReinit = new javax.swing.JButton();
         jBtnClose = new javax.swing.JButton();
         jPasswordField1 = new javax.swing.JPasswordField();
+        jBtnAddParticipant = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,6 +92,13 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jBtnAddParticipant.setText("Ajouter");
+        jBtnAddParticipant.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnAddParticipantActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -99,13 +116,14 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))
                         .addGap(133, 133, 133))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jBtnReinit)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jBtnReinit)
+                            .addComponent(jBtnAddParticipant))
                         .addGap(18, 18, 18)
-                        .addComponent(jBtnConn)
-                        .addGap(63, 63, 63))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jBtnClose)
-                        .addGap(117, 117, 117))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jBtnClose)
+                            .addComponent(jBtnConn))
+                        .addGap(63, 63, 63))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,7 +141,9 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jBtnConn)
                     .addComponent(jBtnReinit))
                 .addGap(18, 18, 18)
-                .addComponent(jBtnClose)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBtnClose)
+                    .addComponent(jBtnAddParticipant))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
@@ -147,6 +167,7 @@ public class Login extends javax.swing.JFrame {
 
     private void jTxtLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtLoginActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_jTxtLoginActionPerformed
 
     private void jBtnReinitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnReinitActionPerformed
@@ -165,24 +186,50 @@ public class Login extends javax.swing.JFrame {
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField1ActionPerformed
-
+    
     private void jBtnConnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConnActionPerformed
-        // TODO add your handling code here:
-        String Login = jTxtLogin.getText();
-        String MotDePasse = jPasswordField1.getText();
-        System.out.println(Login + MotDePasse);
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Application().setVisible(true);
-            }
+        try {
+            // TODO add your handling code here:
+            String Login = jTxtLogin.getText();
+            String MotDePasse = jPasswordField1.getText();
+            
+            DAO<Participant> participantDAO = new ParticipantDAO(ConnectionSingle.getInstance());
+            
+            
+            System.out.println(Login + MotDePasse);
+            if(participantDAO.verify(Login, MotDePasse)){
+                participantDAO.initialise(Login);
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    new Application().setVisible(true);
+                }
         });
-        dispose();
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Mauvais mot de passe ou login", "Erreur", JOptionPane.ERROR_MESSAGE);  
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        
+        
         
     }//GEN-LAST:event_jBtnConnActionPerformed
+
+    private void jBtnAddParticipantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddParticipantActionPerformed
+        // TODO add your handling code here:
+         java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new AddParticipant().setVisible(true);
+            }
+        });
+    }//GEN-LAST:event_jBtnAddParticipantActionPerformed
 
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton jBtnAddParticipant;
     private javax.swing.JButton jBtnClose;
     private javax.swing.JButton jBtnConn;
     private javax.swing.JButton jBtnReinit;
